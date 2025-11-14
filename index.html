@@ -1,94 +1,142 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
   <meta charset="UTF-8">
-  <title>Kocham Cię 💖</title>
+  <title>Romantyczna Strona</title>
   <style>
     body {
-      background: white;
+      margin: 0;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      background: #ffe6e6;
       overflow: hidden;
-      font-family: "Comic Sans MS", sans-serif;
+      font-family: 'Arial', sans-serif;
     }
 
-    .container {
-      position: relative;
-      width: 100%;
-      height: 100%;
+    h1 {
+      position: absolute;
+      top: 20%;
+      font-size: 3em;
+      color: #ff0066;
+      text-align: center;
+    }
+
+    .button-container {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 50px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1.5em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #yes {
+      background-color: #ff4d94;
+      color: white;
+    }
+
+    #no {
+      background-color: #cccccc;
+      color: #333;
     }
 
     .heart {
       position: absolute;
-      color: crimson;
-      font-size: 40px;
-      animation: pulse 2s infinite;
+      width: 20px;
+      height: 20px;
+      background-color: #ff0066;
+      transform: rotate(-45deg);
+      animation: float 5s infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.3); opacity: 0.7; }
-    }
-
-    .box {
-      width: 120px;
-      height: 120px;
-      border: 3px solid black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: rgba(255,255,255,0.9);
+    .heart::before,
+    .heart::after {
+      content: "";
       position: absolute;
-      font-size: 14px;
+      width: 20px;
+      height: 20px;
+      background-color: #ff0066;
+      border-radius: 50%;
     }
 
-    .text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 40px;
-      color: crimson;
-      animation: glow 1.5s infinite alternate;
+    .heart::before {
+      top: -10px;
+      left: 0;
     }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 5px red; }
-      to { text-shadow: 0 0 20px crimson; }
+    .heart::after {
+      left: 10px;
+      top: 0;
     }
 
-    /* Sol kareler */
-    .box1 { top: 40%; left: 20%; transform: rotate(-5deg); }
-    .box2 { top: 55%; left: 23%; transform: rotate(5deg); }
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(-45deg);
+      }
 
-    /* Sağ kareler */
-    .box3 { top: 40%; right: 20%; transform: rotate(5deg); }
-    .box4 { top: 55%; right: 23%; transform: rotate(-5deg); }
+      50% {
+        transform: translateY(-100px) rotate(-45deg);
+      }
 
-    /* Kalplerin yerleri */
-    .heart1 { top: 10%; left: 10%; }
-    .heart2 { top: 80%; left: 20%; }
-    .heart3 { top: 80%; right: 25%; }
-    .heart4 { top: 10%; right: 10%; }
-    .heart5 { bottom: 10%; left: 45%; }
+      100% {
+        transform: translateY(0) rotate(-45deg);
+      }
+    }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="heart heart1">❤️</div>
-    <div class="heart heart2">❤️</div>
-    <div class="heart heart3">❤️</div>
-    <div class="heart heart4">❤️</div>
-    <div class="heart heart5">❤️</div>
-
-    <div class="box box1">onun resmi</div>
-    <div class="box box2">benim resmim</div>
-    <div class="box box3">benim resmim</div>
-    <div class="box box4">onun resmi</div>
-
-    <div class="text">Kocham cię 💋</div>
+  <h1>Czy mnie kochasz?</h1>
+  <div class="button-container">
+    <button id="yes">Tak</button>
+    <button id="no">Nie</button>
   </div>
+
+  <script>
+    const noBtn = document.getElementById('no');
+    const yesBtn = document.getElementById('yes');
+    const body = document.body;
+
+    // Kalpler oluştur
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.top = Math.random() * window.innerHeight + 'px';
+      heart.style.animationDuration = 3 + Math.random() * 5 + 's';
+      body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 8000);
+    }
+
+    setInterval(createHeart, 300);
+
+    // Hayır butonundan kaçma
+    noBtn.addEventListener('mouseenter', () => {
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      yesBtn.style.transform = 'scale(1.3)'; // Evet butonunu büyüt
+    });
+
+    // Tak butonuna basınca mesaj
+    yesBtn.addEventListener('click', () => {
+      alert('Ja też cię kocham! 💖'); // "Bende seni seviyorum!"
+    });
+  </script>
 </body>
+
 </html>
